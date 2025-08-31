@@ -127,12 +127,11 @@ jobs:
             echo "✅ Changes committed and deployed"
           fi
 
-      - name: Deploy to Railway
+      - name: Deploy to Vercel
         run: |
-          echo "🚀 Installing Railway CLI..."
-          curl -fsSL https://railway.app/install.sh | sh
-          echo "$HOME/.railway/bin" >> $GITHUB_PATH
-          echo "🚀 Deploying to Railway..."
-          railway up --detach
+          echo "🚀 Deploying to Vercel..."
+          npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --confirm
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

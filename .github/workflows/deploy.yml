@@ -1,4 +1,4 @@
-name: Deploy to Railway
+name: Deploy to Vercel
 
 on:
   push:
@@ -22,25 +22,10 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Install Railway CLI
-        run: |
-          curl -fsSL https://railway.app/install.sh | sh
-          echo "$HOME/.railway/bin" >> $GITHUB_PATH
-
-      - name: Verify Railway CLI Installation
-        run: |
-          which railway || echo "Railway CLI not found in PATH"
-          railway --version || echo "Railway CLI version check failed"
-
-      - name: Deploy to Railway
-        run: |
-          echo "🚀 Deploying to Railway..."
-          railway up --detach || {
-            echo "❌ Railway deployment failed"
-            echo "Checking Railway CLI status..."
-            railway whoami || echo "Not authenticated to Railway"
-            exit 1
-          }
-          echo "✅ Railway deployment initiated"
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
