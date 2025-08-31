@@ -129,6 +129,9 @@ jobs:
 
       - name: Deploy to Railway
         run: |
+          echo "🚀 Installing Railway CLI..."
+          curl -fsSL https://railway.app/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
           echo "🚀 Deploying to Railway..."
           railway up --detach
         env:
